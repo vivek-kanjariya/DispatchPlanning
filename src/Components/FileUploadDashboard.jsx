@@ -99,22 +99,39 @@ const FileUploadDashboard = ({ setPopup }) => {
     },
   });
 
-  const sendToBackend = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.post('http://localhost:8000/upload', summary); // 🔁 Replace with your backend
+const sendToBackend = async () => {
+  if (!meta || !summary) return;
 
-      if (response.status === 200) {
-        setPopup({ type: 'success', message: 'Data successfully submitted!' });
-      } else {
-        setPopup({ type: 'error', message: 'Unexpected server response.' });
-      }
-    } catch (err) {
-      setPopup({ type: 'error', message: 'Failed to connect to the server.' });
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+    setPopup(null);
+
+    const structuredData = {
+      columns: meta.columns,       // e.g. ["OrderID", "Route", ...]
+      data: Object.values(summary[meta.columns[0]]).map((_, i) => {
+        return meta.columns.map((col) => summary[col]?.[i] ?? null);
+      }),
+    };
+
+    {console.log(structuredData,"Type : .Json")}
+
+    const response = await axios.post('http://localhost:8000/upload', structuredData, {
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 30000, // ⏱️ increase timeout for large payloads
+    });
+
+    if (response.status === 200) {
+      setPopup({ type: 'success', message: 'Data successfully submitted!' });
+    } else {
+      setPopup({ type: 'error', message: 'Unexpected server response.' });
     }
-  };
+  } catch (err) {
+    setPopup({ type: 'error', message: 'Failed to connect to the server.' });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="w-full max-w-4xl mx-auto my-8 px-4 py-6 rounded-2xl shadow-lg border border-white/20 bg-white/10 dark:bg-white/5 backdrop-blur-md transition-all">
