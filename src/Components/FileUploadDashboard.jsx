@@ -115,7 +115,7 @@ const sendToBackend = async () => {
 
     {console.log(structuredData,"Type : .Json")}
 
-    const response = await axios.post('http://localhost:8000/upload', structuredData, {
+    const response = await axios.post('http://localhost:8080/predict', structuredData, {
       headers: { 'Content-Type': 'application/json' },
       timeout: 30000, // ⏱️ increase timeout for large payloads
     });

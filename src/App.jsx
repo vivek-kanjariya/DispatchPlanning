@@ -11,7 +11,7 @@ export default function App() {
   const [popup, setPopup] = useState(null); // Message trigger
 
   return (
-    <div className="min-h-screen relative text-black dark:text-white transition-colors duration-300">
+    <div className="min-h-screen relative text-black dark:text-white transition-colors duration-600">
       
             {/* Popup shown just under Nav */}
       {popup && (
