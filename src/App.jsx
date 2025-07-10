@@ -6,8 +6,7 @@ import Background from "./Components/background";
 import Home from "./Pages/home";
 import Dashboard from "./Pages/dashboard";
 import PopUp from "./Components/popup"; // Import your popup
-// import Sop from './pages/Sop';
-import Sop from './Pages/Sop';
+import Sop from '../src/Pages/Sop';
 
 
 export default function App() {
