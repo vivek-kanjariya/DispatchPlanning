@@ -7,6 +7,7 @@ import Home from "./Pages/home";
 import Dashboard from "./Pages/dashboard";
 import PopUp from "./Components/popup"; // Import your popup
 import Sop from '../src/Pages/Sop';
+import NotFound from "./Pages/notfound";
 
 
 export default function App() {
@@ -33,7 +34,7 @@ export default function App() {
           <Route path="/" element={<Home setPopup={setPopup} />} />
           <Route path="/dashboard" element={<Dashboard setPopup={setPopup} />} />
           <Route path="/sop" element={< Sop setPopup={setPopup} />} />
-          <Route path="*" element={<PopUp type="error" message="Route not found" />} />
+          <Route path="*" element={<NotFound type="error" message="Route not found" />} />
         </Routes>
       </main>
 

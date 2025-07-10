@@ -73,7 +73,7 @@ export default function Sop({ setPopup }) {
         >
           <FileUploadDashboard
             setPopup={setPopup}
-            endpoint="http://127.0.0.1:8000/api/sop/"
+            endpoint="https://mlapi-232i.onrender.com/api/sop/"
             sampleFilePath="./sop.csv"
             setResponse={setBackendData}
           />

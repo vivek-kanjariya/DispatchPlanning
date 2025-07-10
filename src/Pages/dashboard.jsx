@@ -17,7 +17,7 @@ export default function Dashboard({ setPopup }) {
 
       <FileUploadDashboard
         setPopup={setPopup}
-        endpoint="/api/dashboard"
+        endpoint="/api/predict"
         sampleFilePath="./dashboard.csv"
         setResponse={setDashboardResponse}
       />
