@@ -6,7 +6,9 @@ import Background from "./Components/background";
 import Home from "./Pages/home";
 import Dashboard from "./Pages/dashboard";
 import PopUp from "./Components/popup"; // Import your popup
-import Sop from './pages/Sop';
+// import Sop from './pages/Sop';
+import Sop from './Pages/Sop';
+
 
 export default function App() {
   const [popup, setPopup] = useState(null); // Message trigger
