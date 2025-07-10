@@ -42,6 +42,24 @@ export default function NavBar() {
     Dashboard
   </Link>
 </li>
+
+
+
+{/* TRY  */}
+<li>
+  <Link
+    to="/sop"
+    className="block py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 
+               text-gray-700 hover:text-white hover:bg-blue-600 
+               dark:text-gray-300 dark:hover:text-white dark:hover:bg-blue-600"
+  >
+    Space Opti
+  </Link>
+</li>
+
+
+
+
 <li>
   <Link
     to="/"

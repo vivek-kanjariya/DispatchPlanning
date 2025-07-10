@@ -6,6 +6,7 @@ import Background from "./Components/background";
 import Home from "./Pages/home";
 import Dashboard from "./Pages/dashboard";
 import PopUp from "./Components/popup"; // Import your popup
+import Sop from './pages/Sop';
 
 export default function App() {
   const [popup, setPopup] = useState(null); // Message trigger
@@ -30,6 +31,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home setPopup={setPopup} />} />
           <Route path="/dashboard" element={<Dashboard setPopup={setPopup} />} />
+          <Route path="/sop" element={< Sop setPopup={setPopup} />} />
           <Route path="*" element={<PopUp type="error" message="Route not found" />} />
         </Routes>
       </main>

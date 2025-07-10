@@ -1,6 +1,9 @@
+import React, { useState } from "react";
 import FileUploadDashboard from "../Components/FileUploadDashboard";
 
 export default function Dashboard({ setPopup }) {
+  const [dashboardResponse, setDashboardResponse] = useState(null); // ✅ Define it
+
   return (
     <section>
       <div className="flex justify-center pt-20">
@@ -12,7 +15,12 @@ export default function Dashboard({ setPopup }) {
         </h1>
       </div>
 
-      <FileUploadDashboard setPopup={setPopup} />
+      <FileUploadDashboard
+        setPopup={setPopup}
+        endpoint="/api/dashboard"
+        sampleFilePath="./dashboard.csv"
+        setResponse={setDashboardResponse}
+      />
     </section>
   );
 }

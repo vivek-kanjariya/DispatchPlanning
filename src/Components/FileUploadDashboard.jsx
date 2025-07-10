@@ -1,3 +1,5 @@
+// File: /Components/FileUploadDashboard.jsx
+
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
@@ -6,25 +8,17 @@ import axios from 'axios';
 
 const MAX_FILE_SIZE = 15 * 1024 * 1024;
 
-const FileUploadDashboard = ({ setPopup }) => {
-  const [summary, setSummary] = useState(null);
+const FileUploadDashboard = ({
+  setPopup,
+  sampleFilePath = "/sample.csv",
+  endpoint = "http://127.0.0.1:8000/api/data/",
+  setResponse, // NEW: Hook to send data back to parent
+}) => {
+  const [fileData, setFileData] = useState(null);
   const [meta, setMeta] = useState(null);
   const [error, setError] = useState('');
   const [fileName, setFileName] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const extractTop3Values = (data) => {
-    const columnData = {};
-    data.forEach((row) => {
-      Object.entries(row).forEach(([key, value]) => {
-        if (!columnData[key]) columnData[key] = [];
-        if (columnData[key].length < 3 && !columnData[key].includes(value)) {
-          columnData[key].push(value);
-        }
-      });
-    });
-    return columnData;
-  };
 
   const extractMetadata = (data) => {
     const columns = Object.keys(data[0] || {});
@@ -51,9 +45,13 @@ const FileUploadDashboard = ({ setPopup }) => {
 
     reader.onload = (e) => {
       try {
-        let data;
+        let data = [];
+
         if (extension === 'csv') {
-          const result = Papa.parse(e.target.result, { header: true, skipEmptyLines: true });
+          const result = Papa.parse(e.target.result, {
+            header: true,
+            skipEmptyLines: true,
+          });
           data = result.data;
         } else if (extension === 'xlsx') {
           const workbook = XLSX.read(e.target.result, { type: 'binary' });
@@ -63,10 +61,16 @@ const FileUploadDashboard = ({ setPopup }) => {
           throw new Error('Unsupported file format');
         }
 
-        setSummary(extractTop3Values(data));
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error('Parsed data is empty or invalid');
+        }
+
+        setFileData(data);
         setMeta(extractMetadata(data));
       } catch (err) {
-        setError('Error parsing file');
+        console.error('Parse Error:', err);
+        setError('Failed to parse file content');
+        setPopup?.({ type: 'error', message: 'File parsing failed' });
       } finally {
         setLoading(false);
       }
@@ -99,43 +103,91 @@ const FileUploadDashboard = ({ setPopup }) => {
     },
   });
 
-const sendToBackend = async () => {
-  if (!meta || !summary) return;
+  const sendToBackend = async () => {
+    if (!fileData || !meta || !endpoint) return;
 
-  try {
-    setLoading(true);
-    setPopup(null);
-
-    const structuredData = {
-      columns: meta.columns,       // e.g. ["OrderID", "Route", ...]
-      data: Object.values(summary[meta.columns[0]]).map((_, i) => {
-        return meta.columns.map((col) => summary[col]?.[i] ?? null);
-      }),
+    const payload = {
+      columns: meta.columns,
+      data: fileData.map(row => meta.columns.map(col => row[col] ?? null)),
     };
 
-    {console.log(structuredData,"Type : .Json")}
+    console.log("📦 PreUpload Payload:", payload);
 
-    const response = await axios.post('http://localhost:8080/predict', structuredData, {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: 30000, // ⏱️ increase timeout for large payloads
-    });
+    try {
+      setLoading(true);
+      setPopup?.(null);
 
-    if (response.status === 200) {
-      setPopup({ type: 'success', message: 'Data successfully submitted!' });
-    } else {
-      setPopup({ type: 'error', message: 'Unexpected server response.' });
+      const response = await axios.post(endpoint, payload, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 30000,
+      });
+
+      console.log("📡 Sent to API:", endpoint);
+
+      if (response.status === 200) {
+        setPopup?.({ type: 'success', message: 'Prediction sent successfully' });
+
+        // ✅ Send response to parent page
+        if (setResponse && typeof setResponse === 'function') {
+          setResponse(response.data); // typically { result: [...] }
+        }
+
+      } else {
+        setPopup?.({ type: 'error', message: 'Unexpected server response' });
+      }
+    } catch (err) {
+      console.error('Backend error:', err);
+      setPopup?.({
+        type: 'error',
+        message: err?.response?.data?.detail || 'Failed to connect to backend',
+      });
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    setPopup({ type: 'error', message: 'Failed to connect to the server.' });
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
+  const loadSampleFile = async () => {
+    setLoading(true);
+    setError('');
+    setFileName(sampleFilePath.split('/').pop());
+
+    try {
+      const response = await fetch(sampleFilePath);
+      const text = await response.text();
+
+      const result = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true,
+      });
+
+      if (!Array.isArray(result.data) || result.data.length === 0) {
+        throw new Error("Sample file is empty or invalid");
+      }
+
+      setFileData(result.data);
+      setMeta(extractMetadata(result.data));
+    } catch (err) {
+      console.error("Failed to load sample:", err);
+      setError("Failed to load sample file");
+      setPopup?.({ type: "error", message: "Sample load failed" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto my-8 px-4 py-6 rounded-2xl shadow-lg border border-white/20 bg-white/10 dark:bg-white/5 backdrop-blur-md transition-all">
-      {/* Drop Area */}
+      {/* Load Sample Button */}
+      <div className="mb-4 flex justify-end">
+        <button
+          onClick={loadSampleFile}
+          className="bg-gray-200 dark:bg-gray-800 text-sm text-black dark:text-white px-4 py-2 rounded hover:brightness-110"
+        >
+          Load Sample File
+        </button>
+      </div>
+
+      {/* Dropzone Area */}
       <div {...getRootProps()} className="border-2 border-dashed border-gray-300 dark:border-gray-600 p-10 rounded-xl text-center cursor-pointer hover:bg-white/10 dark:hover:bg-white/5 transition-all">
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -145,10 +197,12 @@ const sendToBackend = async () => {
         )}
       </div>
 
+      {/* File Feedback */}
       {error && <p className="mt-4 text-red-500 font-medium text-center">{error}</p>}
       {fileName && !error && <p className="mt-3 text-green-600 dark:text-green-400 text-center">File: {fileName}</p>}
       {loading && <p className="mt-4 text-yellow-600 dark:text-yellow-400 text-center">Processing...</p>}
 
+      {/* Metadata */}
       {meta && (
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-3 text-gray-800 dark:text-white">File Metadata</h2>
@@ -161,18 +215,22 @@ const sendToBackend = async () => {
         </div>
       )}
 
-      {summary && (
+      {/* Preview + Action */}
+      {fileData && (
         <>
           <div className="mt-6 text-gray-800 dark:text-white">
-            <h2 className="text-xl font-bold mb-4">Data Summary</h2>
-            <div className="bg-white/10 dark:bg-white/5 p-4 rounded-md max-h-[300px] overflow-y-auto text-sm">
-              <pre className="text-gray-700 dark:text-gray-300">{JSON.stringify(summary, null, 2)}</pre>
+            <h2 className="text-xl font-bold mb-4">Preview Data (first 3 rows)</h2>
+            <div className="bg-white/10 dark:bg-white/5 p-4 rounded-md max-h-[300px] overflow-x-auto text-sm">
+              <pre className="text-gray-700 dark:text-gray-300">
+                {JSON.stringify(fileData.slice(0, 3), null, 2)}
+              </pre>
             </div>
           </div>
 
           <div className="mt-6 flex justify-center">
             <button
               onClick={sendToBackend}
+              disabled={loading}
               className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition"
             >
               Send to Backend
