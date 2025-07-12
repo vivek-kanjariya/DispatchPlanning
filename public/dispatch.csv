@@ -1,0 +1,35 @@
+Product_ID,Product_Name,Product_Category,Prefix,UID,Expiry_Duration_Months,Fragility_Tag,Temp_Tag,Dispatch_Duration_Days,Unit_Weight_kg,Unit_Volume_L,Quantity_Dispatched,Total_Weight,Total_Volume
+ANT-789-0001,VeeCef Injection 1gm,Antibiotics,ANT,789,18,1,1,13,0.1,0.08,100,10,8
+ANT-295-0002,VeeOxy-4000,Antibiotics,ANT,295,18,1,1,5,0.15,0.12,100,15,12
+DIG-185-0003,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,8,0.12,0.1,200,24,20
+ANT-295-0004,VeeOxy-4000,Antibiotics,ANT,295,18,1,1,7,0.15,0.12,200,30,24
+VIT-285-0005,VeeVit-L Oral,Vitamins and Tonics,VIT,285,24,0,0,5,0.2,0.17,200,40,34
+ANT-789-0006,VeeCef Injection 1gm,Antibiotics,ANT,789,18,1,1,3,0.1,0.08,50,5,4
+DIG-185-0007,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,8,0.12,0.1,50,6,5
+IMM-384-0008,VeeMune-L,Immunity Boosters,IMM,384,24,0,1,11,0.22,0.19,100,22,19
+SUP-434-0009,VeeCal-D Pet,Supplements,SUP,434,36,0,0,19,0.25,0.21,100,25,21
+SUP-434-0010,VeeCal-D Pet,Supplements,SUP,434,36,0,0,7,0.25,0.21,200,50,42
+DIG-185-0011,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,8,0.12,0.1,100,12,10
+ANT-295-0012,VeeOxy-4000,Antibiotics,ANT,295,18,1,1,11,0.15,0.12,50,7.5,6
+DEW-795-0013,VeeWormex Plus,Deworming,DEW,795,30,0,0,7,0.3,0.25,100,30,25
+SUP-434-0014,VeeCal-D Pet,Supplements,SUP,434,36,0,0,10,0.25,0.21,50,12.5,10.5
+ANT-789-0015,VeeCef Injection 1gm,Antibiotics,ANT,789,18,1,1,5,0.1,0.08,200,20,16
+ANT-295-0016,VeeOxy-4000,Antibiotics,ANT,295,18,1,1,6,0.15,0.12,200,30,24
+ANT-789-0017,VeeCef Injection 1gm,Antibiotics,ANT,789,18,1,1,19,0.1,0.08,200,20,16
+TOP-854-0018,VeeTherm Gel,Topical Applications,TOP,854,36,1,0,10,0.18,0.14,50,9,7
+TOP-854-0019,VeeTherm Gel,Topical Applications,TOP,854,36,1,0,11,0.18,0.14,50,9,7
+ANT-789-0020,VeeCef Injection 1gm,Antibiotics,ANT,789,18,1,1,3,0.1,0.08,50,5,4
+IMM-384-0021,VeeMune-L,Immunity Boosters,IMM,384,24,0,1,4,0.22,0.19,100,22,19
+TOP-854-0022,VeeTherm Gel,Topical Applications,TOP,854,36,1,0,6,0.18,0.14,50,9,7
+DEW-795-0023,VeeWormex Plus,Deworming,DEW,795,30,0,0,10,0.3,0.25,50,15,12.5
+DEW-795-0024,VeeWormex Plus,Deworming,DEW,795,30,0,0,11,0.3,0.25,50,15,12.5
+DIG-185-0025,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,8,0.12,0.1,50,6,5
+VIT-285-0026,VeeVit-L Oral,Vitamins and Tonics,VIT,285,24,0,0,8,0.2,0.17,100,20,17
+IMM-384-0027,VeeMune-L,Immunity Boosters,IMM,384,24,0,1,8,0.22,0.19,50,11,9.5
+DEW-795-0028,VeeWormex Plus,Deworming,DEW,795,30,0,0,10,0.3,0.25,200,60,50
+TOP-854-0029,VeeTherm Gel,Topical Applications,TOP,854,36,1,0,7,0.18,0.14,200,36,28
+DIG-185-0030,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,2,0.12,0.1,100,12,10
+IMM-384-0031,VeeMune-L,Immunity Boosters,IMM,384,24,0,1,12,0.22,0.19,50,11,9.5
+SUP-434-0032,VeeCal-D Pet,Supplements,SUP,434,36,0,0,9,0.25,0.21,200,50,42
+DIG-185-0033,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,4,0.12,0.1,200,24,20
+DIG-185-0034,VeeLac Bolus,Digestive Aids,DIG,185,24,0,0,11,0.12,0.1,200,24,20

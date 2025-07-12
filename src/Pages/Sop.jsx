@@ -63,6 +63,7 @@ export default function Sop({ setPopup }) {
         )}
       </AnimatePresence>
 
+
       {showOptimized && (
         <motion.div
           key="uploader"
@@ -92,6 +93,7 @@ export default function Sop({ setPopup }) {
           <Graph data={formattedResult} />
         </motion.div>
       )}
+
     </section>
   );
 }

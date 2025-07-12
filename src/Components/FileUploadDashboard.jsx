@@ -1,5 +1,3 @@
-// File: /Components/FileUploadDashboard.jsx
-
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
@@ -12,7 +10,7 @@ const FileUploadDashboard = ({
   setPopup,
   sampleFilePath = "/sample.csv",
   endpoint = "http://127.0.0.1:8000/api/data/",
-  setResponse, // NEW: Hook to send data back to parent
+  setResponse,
 }) => {
   const [fileData, setFileData] = useState(null);
   const [meta, setMeta] = useState(null);
@@ -104,37 +102,50 @@ const FileUploadDashboard = ({
   });
 
   const sendToBackend = async () => {
-    if (!fileData || !meta || !endpoint) return;
+    if (!fileData || !meta) {
+      console.error("❌ Missing file data or metadata");
+      setPopup?.({ type: 'error', message: 'Missing file data or metadata' });
+      return;
+    }
+
+    if (!endpoint) {
+      console.error("❌ Endpoint is not defined");
+      setPopup?.({ type: 'error', message: 'No API endpoint provided' });
+      return;
+    }
+
 
     const payload = {
       columns: meta.columns,
       data: fileData.map(row => meta.columns.map(col => row[col] ?? null)),
     };
 
-    console.log("📦 PreUpload Payload:", payload);
+    console.log("PreUpload Payload:", payload);
+    console.log("Using endpoint:", endpoint);
 
     try {
       setLoading(true);
       setPopup?.(null);
+      const start = performance.now();
 
       const response = await axios.post(endpoint, payload, {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 30000,
+        timeout: 60000,
       });
-
-      console.log("📡 Sent to API:", endpoint);
 
       if (response.status === 200) {
         setPopup?.({ type: 'success', message: 'Prediction sent successfully' });
-
-        // ✅ Send response to parent page
         if (setResponse && typeof setResponse === 'function') {
-          setResponse(response.data); // typically { result: [...] }
+          setResponse(response.data);
         }
-
       } else {
         setPopup?.({ type: 'error', message: 'Unexpected server response' });
       }
+    const end = performance.now();
+    const latencyMs = end - start;
+
+    console.log("API Latency:", latencyMs.toFixed(2), "ms");
+
     } catch (err) {
       console.error('Backend error:', err);
       setPopup?.({
@@ -177,7 +188,6 @@ const FileUploadDashboard = ({
 
   return (
     <div className="w-full max-w-4xl mx-auto my-8 px-4 py-6 rounded-2xl shadow-lg border border-white/20 bg-white/10 dark:bg-white/5 backdrop-blur-md transition-all">
-      {/* Load Sample Button */}
       <div className="mb-4 flex justify-end">
         <button
           onClick={loadSampleFile}
@@ -187,7 +197,6 @@ const FileUploadDashboard = ({
         </button>
       </div>
 
-      {/* Dropzone Area */}
       <div {...getRootProps()} className="border-2 border-dashed border-gray-300 dark:border-gray-600 p-10 rounded-xl text-center cursor-pointer hover:bg-white/10 dark:hover:bg-white/5 transition-all">
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -197,12 +206,10 @@ const FileUploadDashboard = ({
         )}
       </div>
 
-      {/* File Feedback */}
       {error && <p className="mt-4 text-red-500 font-medium text-center">{error}</p>}
       {fileName && !error && <p className="mt-3 text-green-600 dark:text-green-400 text-center">File: {fileName}</p>}
       {loading && <p className="mt-4 text-yellow-600 dark:text-yellow-400 text-center">Processing...</p>}
 
-      {/* Metadata */}
       {meta && (
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-3 text-gray-800 dark:text-white">File Metadata</h2>
@@ -215,7 +222,6 @@ const FileUploadDashboard = ({
         </div>
       )}
 
-      {/* Preview + Action */}
       {fileData && (
         <>
           <div className="mt-6 text-gray-800 dark:text-white">

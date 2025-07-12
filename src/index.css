@@ -1,64 +1,60 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
-
 @tailwind base;
 
 html {
   scroll-behavior: smooth;
   word-break: break-word;
+  background-color: white; /* fallback background */
 }
 
-/* Selection styling - Light mode */
+/* === Zoom Simulation === */
+#zoom-wrapper {
+  transform: scale(0.67);
+  transform-origin: top left;
+  width: 149.25vw; /* to prevent horizontal clipping */
+  height: 149.25vh;
+  overflow: hidden;
+}
+
+/* === Light Mode ::selection === */
 ::selection {
-  background-color: #fc8d25; /* orange-ish for light mode */
+  background-color: #fc8d25;
   color: white;
 }
 
-/* Selection styling - Dark mode */
+/* === Dark Mode ::selection === */
 .dark ::selection {
-  background-color: #facc15; /* yellow-400 for visibility on dark bg */
-  color: rgb(255, 145, 71);
+  background-color: #60a5fa;
+  color: #000;
 }
 
-
-/* Scrollbar styling – cross-browser compatible */
+/* === Scrollbar Styling === */
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #3b82f6 #f1f5f9; /* thumb, track */
+  scrollbar-color: #3b82f6 #f1f5f9;
 }
 
-/* Chrome, Edge, Safari */
+/* WebKit Browsers */
 *::-webkit-scrollbar {
   width: 12px;
 }
-
 *::-webkit-scrollbar-track {
-  background: #f1f5f9; /* Tailwind slate-100 */
+  background: #f1f5f9;
 }
-
 *::-webkit-scrollbar-thumb {
-  background-color: #3b82f6; /* blue-500 */
+  background-color: #3b82f6;
   border-radius: 10px;
   border: 3px solid #f1f5f9;
 }
 
-/* Dark mode adjustments */
+/* Dark Mode Scrollbar */
 .dark *::-webkit-scrollbar-track {
-  background: #1e293b; /* slate-800 */
+  background: #1e293b;
 }
-
 .dark *::-webkit-scrollbar-thumb {
-  background-color: #60a5fa; /* blue-400 */
+  background-color: #60a5fa;
   border: 3px solid #1e293b;
-}
-
-.dark ::selection {
-  background-color: #60a5fa; /* blue-400 */
-  color: #000;
 }
 
 @tailwind components;
