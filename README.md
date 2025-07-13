@@ -212,7 +212,7 @@ Make sure your backend is running at the same `endpoint` provided in each page.
 
 ## 🙏 Credits & License
 
-- Built with 💪 by **Vivek K**
+- Built with 💪 by **Our Team (Educational Purpose Only Not for Commercial)**
 - [MIT License](LICENSE)
 
 ---
