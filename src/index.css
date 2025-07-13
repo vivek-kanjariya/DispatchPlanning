@@ -40,12 +40,12 @@ html {
   width: 12px;
 }
 *::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #3b82f6;
+  background-color: #ff9627;
   border-radius: 10px;
-  border: 3px solid #f1f5f9;
+  border: none;
 }
 
 /* Dark Mode Scrollbar */
@@ -53,8 +53,8 @@ html {
   background: #1e293b;
 }
 .dark *::-webkit-scrollbar-thumb {
-  background-color: #60a5fa;
-  border: 3px solid #1e293b;
+  background-color: #ff9f29;
+  border: none;
 }
 
 @tailwind components;

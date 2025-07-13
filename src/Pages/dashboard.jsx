@@ -140,6 +140,22 @@ const transformData = ({ columns, data }) => {
   );
 };
 
+const vehiclePoolData = [
+  { Vehicle_ID: "SMALL_001", Vehicle_Type: "Small", Vehicle_Property: "General", Capacity_kg: 500, Capacity_L: 1500, Remaining_kg: 500, Remaining_L: 1500, Used: 0 },
+  { Vehicle_ID: "SMALL_002", Vehicle_Type: "Small", Vehicle_Property: "General", Capacity_kg: 500, Capacity_L: 1500, Remaining_kg: 500, Remaining_L: 1500, Used: 0 },
+  { Vehicle_ID: "MEDIUM_001", Vehicle_Type: "Medium", Vehicle_Property: "General", Capacity_kg: 1000, Capacity_L: 3000, Remaining_kg: 1000, Remaining_L: 3000, Used: 0 },
+  { Vehicle_ID: "MEDIUM_002", Vehicle_Type: "Medium", Vehicle_Property: "General", Capacity_kg: 1000, Capacity_L: 3000, Remaining_kg: 1000, Remaining_L: 3000, Used: 0 },
+  { Vehicle_ID: "LARGE_001", Vehicle_Type: "Large", Vehicle_Property: "General", Capacity_kg: 2000, Capacity_L: 6000, Remaining_kg: 2000, Remaining_L: 6000, Used: 0 },
+  { Vehicle_ID: "LARGE_002", Vehicle_Type: "Large", Vehicle_Property: "General", Capacity_kg: 2000, Capacity_L: 6000, Remaining_kg: 2000, Remaining_L: 6000, Used: 0 },
+  { Vehicle_ID: "SPECIAL_SMALL_001", Vehicle_Type: "Special_Small", Vehicle_Property: "Specialised", Capacity_kg: 500, Capacity_L: 1500, Remaining_kg: 500, Remaining_L: 1500, Used: 0 },
+  { Vehicle_ID: "SPECIAL_SMALL_002", Vehicle_Type: "Special_Small", Vehicle_Property: "Specialised", Capacity_kg: 500, Capacity_L: 1500, Remaining_kg: 500, Remaining_L: 1500, Used: 0 },
+  { Vehicle_ID: "SPECIAL_MEDIUM_001", Vehicle_Type: "Special_Medium", Vehicle_Property: "Specialised", Capacity_kg: 1000, Capacity_L: 3000, Remaining_kg: 1000, Remaining_L: 3000, Used: 0 },
+  { Vehicle_ID: "SPECIAL_MEDIUM_002", Vehicle_Type: "Special_Medium", Vehicle_Property: "Specialised", Capacity_kg: 1000, Capacity_L: 3000, Remaining_kg: 1000, Remaining_L: 3000, Used: 0 },
+  { Vehicle_ID: "SPECIAL_LARGE_001", Vehicle_Type: "Special_Large", Vehicle_Property: "Specialised", Capacity_kg: 2000, Capacity_L: 6000, Remaining_kg: 2000, Remaining_L: 6000, Used: 0 },
+  { Vehicle_ID: "SPECIAL_LARGE_002", Vehicle_Type: "Special_Large", Vehicle_Property: "Specialised", Capacity_kg: 2000, Capacity_L: 6000, Remaining_kg: 2000, Remaining_L: 6000, Used: 0 },
+];
+
+
 export default function Dashboard({ setPopup }) {
   const [dashboardResponse, setDashboardResponse] = useState(null);
 
@@ -172,11 +188,11 @@ export default function Dashboard({ setPopup }) {
 
       <FileUploadDashboard
         setPopup={setPopup}
-        endpoint="http://127.0.0.1:8000/api/dispatch/"
+        endpoint="https://mlapi-232i.onrender.com/api/dispatch/"
         sampleFilePath="./dispatch.csv"
         setResponse={setDashboardResponse}
       />
-
+{console.log(setDashboardResponse)}
       {/* ✅ Table + Graph Section */}
       {formattedResult?.length > 0 ? (
         <motion.div
@@ -195,6 +211,22 @@ export default function Dashboard({ setPopup }) {
           </p>
         )
       )}
+
+      {formattedResult?.length > 0 && (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.6, duration: 0.4 }}
+    className="mt-6 mb-16 w-full max-w-7xl p-4 rounded-2xl backdrop-blur-md bg-white/30 dark:bg-white/10 border border-white/20 shadow-lg overflow-x-auto"
+  >
+    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+      Available Vehicle Pool Overview 
+      This one Gets That How many Vehicles You have Available for Dispatching your Requested Products.
+    </h2>
+    <Table data={vehiclePoolData} />
+  </motion.div>
+)}
+
     </section>
   );
 }

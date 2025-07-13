@@ -38,7 +38,7 @@ export default function Sop({ setPopup }) {
             transition={{ duration: 0.5 }}
             className="text-center font-extrabold text-2xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400"
           >
-            who broke your &nbsp;&nbsp;&nbsp;&nbsp; belongings
+            who broke your &nbsp; belongings ?
           </motion.h1>
         ) : (
           <motion.h1
