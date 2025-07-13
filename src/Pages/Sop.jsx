@@ -78,6 +78,8 @@ export default function Sop({ setPopup }) {
             sampleFilePath="./sop.csv"
             setResponse={setBackendData}
           />
+
+          {console.log("Data Being Dispatched /sop:",setBackendData)}
         </motion.div>
       )}
 
